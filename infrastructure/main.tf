@@ -17,13 +17,23 @@ provider "aws" {
   }
 }
 
-variable "metadata_db" {
-  type = object({
-    db_name  = string
-    username = string
-    password = string
-    port     = string
-  })
+variable "db_name" {
+  type = string
+  sensitive = true
+}
+
+variable "db_username" {
+  type = string
+  sensitive = true
+}
+
+variable "db_password" {
+  type = string
+  sensitive = true
+}
+
+variable "db_port" {
+  type = string
   sensitive = true
 }
 
@@ -34,7 +44,7 @@ variable "fernet_key" {
 
 variable "aws_region" {
   type    = string
-  default = "us-east-1"
+  default = "eu-west-3"
 }
 
 variable "force_new_ecs_service_deployment" {

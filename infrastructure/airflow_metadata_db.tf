@@ -13,8 +13,8 @@ resource "aws_security_group" "airflow_metadata_db" {
   description = "Allow inbound traffic to RDS from ECS"
   vpc_id      = aws_vpc.main.id
   ingress {
-    from_port = var.metadata_db.port
-    to_port   = var.metadata_db.port
+    from_port = var.db_port
+    to_port   = var.db_port
     protocol  = "tcp"
     security_groups = [
       aws_security_group.airflow_webserver_service.id,
@@ -46,8 +46,8 @@ resource "aws_db_instance" "airflow_metadata_db" {
   vpc_security_group_ids = [aws_security_group.airflow_metadata_db.id]
   apply_immediately      = true
   skip_final_snapshot    = true
-  db_name                = var.metadata_db.db_name
-  username               = var.metadata_db.username
-  password               = var.metadata_db.password
-  port                   = var.metadata_db.port
+  db_name                = var.db_name
+  username               = var.db_username
+  password               = var.db_password
+  port                   = var.db_port
 }
