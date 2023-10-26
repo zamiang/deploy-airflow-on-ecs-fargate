@@ -40,7 +40,7 @@ resource "aws_db_instance" "airflow_metadata_db" {
   max_allocated_storage  = 100
   db_subnet_group_name   = aws_db_subnet_group.airflow_metadata_db.name
   engine                 = "postgres"
-  engine_version         = "13.4"
+  engine_version         = "15.4"
   instance_class         = "db.t4g.micro"
   publicly_accessible    = false
   vpc_security_group_ids = [aws_security_group.airflow_metadata_db.id]

@@ -2,7 +2,7 @@
 # This role is for the ECS container agent, not containerized applications.
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html#create-task-execution-role
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole"
+  name = "ecsAirflowFargateTaskExecutionRole"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

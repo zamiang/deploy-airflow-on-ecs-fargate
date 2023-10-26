@@ -4,3 +4,11 @@ cryptography==3.4.8
 # To use SQS as a broker in Celery, you need to install pycurl.
 # https://github.com/saleor/saleor/issues/8804
 pycurl==7.44.1
+
+black~=23.1.0
+canvas-workflow-kit~=0.6.5
+pylint~=2.16.2
+pylint-airflow~=0.1.0a1
+pytest~=7.3.1
+snowflake-connector-python~=3.0.3
+snowflake-sqlalchemy~=1.4.7

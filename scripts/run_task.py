@@ -88,7 +88,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--profile",
         type=str,
-        default="default",
+        default="brennan",
         help="The name of the awscli profile to use. Defaults to 'default'.",
     )
     parser.add_argument(
