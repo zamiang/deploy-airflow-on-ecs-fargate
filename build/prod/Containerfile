@@ -5,13 +5,13 @@ USER root
 # dependencies for other packages and are now no longer needed.
 # `apt-get clean` clears out the local repository of retrieved package files
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends gcc libc6-dev libcurl4-openssl-dev libssl-dev \ 
+  && apt-get install -y --no-install-recommends gcc libc6-dev libcurl4-openssl-dev libssl-dev \
   && apt-get autoremove -yqq --purge \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd airflow
-COPY --chown=airflow:airflow build/dev/requirements.txt "${AIRFLOW_HOME}/requirements.txt"
+COPY --chown=airflow:airflow build/prod/requirements.txt "${AIRFLOW_HOME}/requirements.txt"
 
 USER airflow
 RUN pip install --upgrade pip \
