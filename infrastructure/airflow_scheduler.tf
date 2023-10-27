@@ -116,7 +116,6 @@ resource "aws_security_group" "airflow_scheduler_service" {
 
 resource "aws_ecs_service" "airflow_scheduler" {
   name = "airflow-scheduler"
-  # Note: If a revision is not specified, the latest ACTIVE revision is used.
   task_definition = aws_ecs_task_definition.airflow_scheduler.family
   cluster         = aws_ecs_cluster.airflow.arn
   # Note: If using awsvpc network mode, do not specify iam_role.
@@ -140,38 +139,4 @@ resource "aws_ecs_service" "airflow_scheduler" {
   platform_version     = "1.4.0"
   scheduling_strategy  = "REPLICA"
   force_new_deployment = var.force_new_ecs_service_deployment
-}
-
-resource "aws_appautoscaling_target" "airflow_scheduler" {
-  max_capacity       = 1
-  min_capacity       = 0
-  resource_id        = "service/${aws_ecs_cluster.airflow.name}/${aws_ecs_service.airflow_scheduler.name}"
-  scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = "ecs"
-}
-
-# Scale to zero at night (22:00 Japan Standard Time)
-resource "aws_appautoscaling_scheduled_action" "airflow_scheduler_scheduled_scale_in" {
-  name               = "airflow-scheduler-scheduled-scale-in"
-  service_namespace  = aws_appautoscaling_target.airflow_scheduler.service_namespace
-  resource_id        = aws_appautoscaling_target.airflow_scheduler.resource_id
-  scalable_dimension = aws_appautoscaling_target.airflow_scheduler.scalable_dimension
-  schedule           = "cron(0 13 * * ? *)"
-  scalable_target_action {
-    min_capacity = 0
-    max_capacity = 0
-  }
-}
-
-# Scale to one during the day (8:00 Japan Standard Time)
-resource "aws_appautoscaling_scheduled_action" "airflow_scheduler_scheduled_scale_out" {
-  name               = "airflow-scheduler-scheduled-scale-out"
-  service_namespace  = aws_appautoscaling_target.airflow_scheduler.service_namespace
-  resource_id        = aws_appautoscaling_target.airflow_scheduler.resource_id
-  scalable_dimension = aws_appautoscaling_target.airflow_scheduler.scalable_dimension
-  schedule           = "cron(0 23 * * ? *)"
-  scalable_target_action {
-    min_capacity = 1
-    max_capacity = 1
-  }
 }

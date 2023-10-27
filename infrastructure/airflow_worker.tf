@@ -95,7 +95,7 @@ resource "aws_ecs_service" "airflow_worker" {
 
 resource "aws_appautoscaling_target" "airflow_worker" {
   max_capacity       = 5
-  min_capacity       = 0
+  min_capacity       = 1
   resource_id        = "service/${aws_ecs_cluster.airflow.name}/${aws_ecs_service.airflow_worker.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
